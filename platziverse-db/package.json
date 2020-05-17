@@ -1,0 +1,14 @@
+{
+  "name": "platziverse-db",
+  "version": "1.0.0",
+  "description": "Simple IoT Platform - DB Module",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha /**/*.test.js"
+  },
+  "author": "Facundo Palombo",
+  "license": "MIT",
+  "devDependencies": {
+    "standard": "^14.3.4"
+  }
+}
