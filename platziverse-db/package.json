@@ -4,7 +4,8 @@
   "description": "Simple IoT Platform - DB Module",
   "main": "index.js",
   "scripts": {
-    "test": "mocha /**/*.test.js"
+    "test": "mocha /**/*.test.js",
+    "lint": "standard -- --fix"
   },
   "author": "Facundo Palombo",
   "license": "MIT",
