@@ -1,7 +1,37 @@
 "use strict";
+const defaults = require("defaults");
+const setupDatabase = require("./lib/db");
+const setupAgentModel = require("./models/agent");
+const setupMetricModel = require("./models/metric");
+const setupAgent = require("./lib/agent");
 
 module.exports = async function (config) {
-  const Agent = {};
+  config = defaults(config, {
+    dialect: "sqlite",
+    pool: {
+      max: 10,
+      min: 0,
+      idle: 10000,
+    },
+    query: {
+      raw: true,
+    },
+  });
+
+  const Database = setupDatabase(config);
+  const AgentModel = setupAgentModel(config);
+  const MetricModel = setupMetricModel(config);
+
+  AgentModel.hasMany(MetricModel);
+  MetricModel.belongsTo(AgentModel);
+
+  await Database.authenticate();
+
+  if (config.setup) {
+    await Database.sync({ force: true });
+  }
+
+  const Agent = setupAgent(AgentModel);
   const Metric = {};
   return {
     Agent,

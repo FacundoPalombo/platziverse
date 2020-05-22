@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  platziverse-db:
+    image: postgres:latest
+    container_name: platziverse-db
+    volumes:
+      - "/db-data:/postgres/data"
+      - "/postgresql.conf:/etc/postgresql/postgresql.conf"
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "platziverse"
+      PGDATA: /postgres/data
+  platziverse-pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: platziverse-pgadmin
+    ports:
+      - "54105:80"
+    restart: on-failure
+    volumes:
+      - /database/pgadmin:/root/.pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "facundo.palombo@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "1234"
+    depends_on:
+      - platziverse-db
