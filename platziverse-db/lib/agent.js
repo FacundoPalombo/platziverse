@@ -28,11 +28,22 @@ module.exports = function setupAgent(AgentModel) {
     };
     const existingAgent = await AgentModel.findOne(query);
     if (existingAgent) {
-      const updated = await AgentModel.update(agent, query);
-      return updated ? AgentModel.findOne(query) : existingAgent;
+      try {
+        await AgentModel.update(agent, query);
+        return AgentModel.findOne(query);
+      } catch (error) {
+        return existingAgent;
+      }
     }
     const result = await AgentModel.create(agent);
     return result.toJSON();
   }
-  return { findById, createOrUpdate };
+  return {
+    findById,
+    findByUuid,
+    findAll,
+    findConnected,
+    findByUsername,
+    createOrUpdate,
+  };
 };

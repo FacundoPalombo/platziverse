@@ -1,5 +1,7 @@
 "use strict";
 
+const extend = require("../../utils/extend");
+
 const agent = {
   id: 1,
   uuid: "yyy-yyy-yyy",
@@ -11,11 +13,6 @@ const agent = {
   createdAt: new Date(),
   updatedAt: new Date(),
 };
-
-function extend(obj, values) {
-  const clone = Object.assign({}, obj);
-  return Object.assign(clone, values);
-}
 
 const agents = [
   agent,
@@ -42,4 +39,6 @@ module.exports = {
   connected: agents.filter((a) => a.connected),
   byUuid: (uuid) => agents.filter((a) => a.uuid === uuid).shift(),
   byId: (id) => agents.filter((a) => a.id === id).shift(),
+  byUsername: (username) =>
+    agents.filter((a) => a.username === username).shift(),
 };
